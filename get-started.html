@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Get Started — XCX</title>
+<link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --blue:#1a1ae6; --indigo:#2a1fc4; --purple:#6a00d6; --pink:#e6007e;
+    --ink:#0f0b2e; --muted:#5b5b7a; --line:#e3e3f8; --bg:#f1f2ff; --card:#fff;
+    --ok:#12a150; --warn:#f08a24;
+    --grad:linear-gradient(90deg,var(--indigo),var(--purple) 55%,var(--pink));
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Open Sans',system-ui,sans-serif;color:var(--ink);background:var(--bg);display:flex;min-height:100vh}
+  button{font:inherit;cursor:pointer}
+  a{color:inherit;text-decoration:none}
+
+  /* ---------- Sidebar ---------- */
+  .sidebar{width:260px;flex:none;position:sticky;top:0;height:100vh;color:#fff;padding:28px 18px;display:flex;flex-direction:column;
+    background:linear-gradient(170deg,#1021c9 0%,#4a0fd8 55%,#e6007e 100%);border-radius:0 28px 28px 0}
+  .logo{font-size:40px;font-weight:800;letter-spacing:-1.5px;padding:0 8px}
+  .logo-sub{font-size:11px;letter-spacing:1.5px;opacity:.75;padding:6px 8px 26px}
+  .nav-label{font-size:11px;letter-spacing:1.5px;opacity:.6;padding:14px 10px 8px;font-weight:600}
+  .nav a{display:flex;align-items:center;gap:12px;padding:11px 12px;border-radius:12px;font-size:15px;font-weight:500;opacity:.9;margin-bottom:2px;cursor:pointer}
+  .nav a:hover{background:rgba(255,255,255,.12)}
+  .nav a.active{background:#fff;color:var(--blue);opacity:1;font-weight:600}
+  .nav svg{width:20px;height:20px;flex:none}
+  .pill{margin-left:auto;font-size:11px;font-weight:700;padding:3px 9px;border-radius:99px;background:rgba(255,255,255,.22)}
+  .nav a.active .pill{background:var(--blue);color:#fff}
+  .pill.new{background:var(--pink);color:#fff}
+  .side-bottom{margin-top:auto;padding:16px;border-radius:18px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2)}
+  .side-bottom b{display:block;font-size:16px;margin-bottom:4px}
+  .side-bottom p{font-size:13px;opacity:.85;line-height:1.5;margin-bottom:12px}
+  .side-bottom button{width:100%;border:0;border-radius:10px;padding:10px;background:#fff;color:var(--blue);font-weight:700;font-size:13px}
+
+  /* ---------- Main ---------- */
+  .main{flex:1;min-width:0;padding:22px 32px 120px}
+  .topbar{display:flex;align-items:center;gap:16px;margin-bottom:28px}
+  .search{flex:1;max-width:460px;display:flex;align-items:center;gap:10px;background:#fff;border:1px solid var(--line);border-radius:14px;padding:0 16px;height:48px;color:#8a8aa8}
+  .search input{border:0;outline:0;flex:1;font:inherit;background:none;color:var(--ink)}
+  .spacer{flex:1}
+  .icon-btn{position:relative;width:46px;height:46px;border-radius:14px;background:#fff;border:1px solid var(--line);display:grid;place-items:center;color:var(--muted)}
+  .icon-btn i{position:absolute;top:-6px;right:-6px;background:#e11d48;color:#fff;font-size:11px;font-style:normal;font-weight:700;width:20px;height:20px;border-radius:50%;display:grid;place-items:center}
+  .user{display:flex;align-items:center;gap:12px;background:#fff;border:1px solid var(--line);border-radius:16px;padding:6px 14px 6px 6px}
+  .avatar{width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,var(--indigo),var(--pink));color:#fff;font-weight:700;display:grid;place-items:center;font-size:14px}
+  .user b{display:block;font-size:14px}.user small{font-size:12px;color:var(--muted)}
+
+  .view{display:none}.view.show{display:block}
+  h1{font-size:34px;font-weight:800;letter-spacing:-.8px}
+  .lead{color:var(--muted);margin-top:6px;font-size:16px}
+
+  /* ---------- Get Started page ---------- */
+  .hero{margin-top:24px;border-radius:24px;color:#fff;padding:32px;display:flex;align-items:center;gap:32px;position:relative;overflow:hidden;
+    background:linear-gradient(135deg,#1021c9,#5a00d6 60%,#e6007e)}
+  .hero::after{content:"";position:absolute;right:-90px;top:-120px;width:360px;height:360px;border-radius:50%;background:rgba(255,255,255,.07)}
+  .hero h2{font-size:26px;font-weight:800;letter-spacing:-.5px}
+  .hero p{opacity:.85;margin-top:8px;max-width:520px;line-height:1.6}
+  .hero .cta{margin-top:20px;display:inline-flex;align-items:center;gap:8px;border:0;background:#fff;color:var(--blue);font-weight:700;padding:12px 20px;border-radius:12px}
+  .ring-lg{position:relative;width:132px;height:132px;flex:none;z-index:1}
+  .ring-lg svg{transform:rotate(-90deg)}
+  .ring-lg .num{position:absolute;inset:0;display:grid;place-items:center;text-align:center;font-weight:800;font-size:30px;line-height:1}
+  .ring-lg .num small{display:block;font-size:11px;font-weight:600;opacity:.8;margin-top:4px}
+  .hero-text{flex:1;z-index:1}
+
+  .grid{display:grid;grid-template-columns:1.5fr 1fr;gap:24px;margin-top:24px;align-items:start}
+  .card{background:var(--card);border-radius:22px;padding:24px;border:1px solid var(--line)}
+  .card h3{font-size:18px;font-weight:700}
+  .card .sub{color:var(--muted);font-size:14px;margin-top:4px}
+
+  .steps{margin-top:18px;display:grid;gap:10px}
+  .step{border:1.5px solid var(--line);border-radius:16px;padding:16px;display:grid;grid-template-columns:auto 1fr auto;gap:14px;align-items:center;background:#fff;transition:.15s}
+  .step:hover{border-color:#c6c7f3}
+  .step.current{border-color:var(--blue);box-shadow:0 0 0 4px rgba(26,26,230,.08)}
+  .step.locked{opacity:.55}
+  .dot{width:36px;height:36px;border-radius:50%;display:grid;place-items:center;font-weight:700;font-size:14px;border:2px solid var(--line);color:var(--muted);background:#fff}
+  .step.current .dot{border-color:var(--blue);color:var(--blue)}
+  .step.done .dot{background:var(--grad);border-color:transparent;color:#fff}
+  .step b{font-size:15px;display:block}
+  .step p{font-size:13px;color:var(--muted);margin-top:2px;line-height:1.45}
+  .step .eta{font-size:12px;color:#8a8aa8;margin-top:6px;display:flex;gap:6px;align-items:center}
+  .tag{font-size:12px;font-weight:700;padding:4px 10px;border-radius:99px}
+  .tag.ok{background:#e8f8ef;color:#0d6b38}.tag.wait{background:#fff4e5;color:#b25e09}.tag.lock{background:#f0f0fa;color:#7a7a99}
+  .btn{border:0;border-radius:11px;padding:10px 16px;font-weight:700;font-size:13px;color:#fff;background:var(--grad);white-space:nowrap}
+  .btn.ghost{background:var(--bg);color:var(--blue);border:1.5px solid var(--line)}
+  .btn:disabled{opacity:.5;cursor:not-allowed}
+
+  .tour{margin-top:16px;display:grid;gap:10px}
+  .tour a{display:flex;gap:12px;align-items:center;padding:14px;border-radius:14px;background:var(--bg);cursor:pointer;border:1.5px solid transparent}
+  .tour a:hover{border-color:#c6c7f3;background:#eceeff}
+  .tour svg{width:22px;height:22px;color:var(--blue);flex:none}
+  .tour b{font-size:14px;display:block}.tour small{color:var(--muted);font-size:12px}
+  .tour .go{margin-left:auto;color:var(--blue);font-weight:700}
+
+  .placeholder{margin-top:40px;background:#fff;border:2px dashed var(--line);border-radius:24px;padding:64px 24px;text-align:center;color:var(--muted)}
+  .placeholder h2{color:var(--ink);font-size:22px;margin-bottom:8px}
+  .banner{margin-top:20px;display:flex;align-items:center;gap:14px;padding:14px 18px;border-radius:16px;background:#fff4e5;border:1px solid #ffd9a6;color:#8a4a06;font-size:14px}
+  .banner button{margin-left:auto}
+
+  /* ---------- Floating button + panel ---------- */
+  .fab{position:fixed;right:28px;bottom:28px;z-index:50;display:flex;align-items:center;gap:12px;border:0;background:#fff;border-radius:99px;padding:8px 22px 8px 8px;
+    box-shadow:0 12px 32px rgba(40,20,160,.28);border:1px solid var(--line);transition:transform .15s}
+  .fab:hover{transform:translateY(-2px)}
+  .fab .r{position:relative;width:52px;height:52px}
+  .fab .r svg{transform:rotate(-90deg)}
+  .fab .r span{position:absolute;inset:0;display:grid;place-items:center;font-size:13px;font-weight:800;color:var(--blue)}
+  .fab .t{text-align:left;line-height:1.25}
+  .fab .t b{font-size:14px;display:block}.fab .t small{font-size:12px;color:var(--muted)}
+  .fab.complete .t small{color:var(--ok);font-weight:600}
+
+  .panel{position:fixed;right:28px;bottom:104px;width:380px;max-height:calc(100vh - 140px);z-index:60;background:#fff;border-radius:24px;border:1px solid var(--line);
+    box-shadow:0 24px 60px rgba(40,20,160,.3);display:none;flex-direction:column;overflow:hidden}
+  .panel.open{display:flex;animation:pop .18s ease-out}
+  @keyframes pop{from{opacity:0;transform:translateY(10px) scale(.98)}to{opacity:1;transform:none}}
+  .p-head{padding:20px 22px;color:#fff;background:linear-gradient(135deg,#1021c9,#5a00d6 60%,#e6007e);position:relative}
+  .p-head h4{font-size:17px;font-weight:800}
+  .p-head p{font-size:13px;opacity:.85;margin-top:4px}
+  .p-head .x{position:absolute;top:14px;right:14px;width:30px;height:30px;border-radius:50%;border:0;background:rgba(255,255,255,.2);color:#fff;font-size:16px}
+  .bar{height:8px;background:rgba(255,255,255,.25);border-radius:9px;margin-top:14px;overflow:hidden}
+  .bar i{display:block;height:100%;background:#fff;border-radius:9px;transition:width .4s}
+  .p-body{padding:10px;overflow:auto}
+  .p-item{display:flex;gap:12px;align-items:center;padding:12px;border-radius:14px;cursor:pointer}
+  .p-item:hover{background:var(--bg)}
+  .p-item .dot{width:30px;height:30px;font-size:12px}
+  .p-item.done .dot{background:var(--grad);border-color:transparent;color:#fff}
+  .p-item.current .dot{border-color:var(--blue);color:var(--blue)}
+  .p-item b{font-size:14px}
+  .p-item.done b{color:var(--muted);text-decoration:line-through;text-decoration-color:#c0c0d8}
+  .p-item small{display:block;font-size:12px;color:var(--muted)}
+  .p-item .chev{margin-left:auto;color:#a0a0c0}
+  .p-foot{padding:12px 16px 16px;border-top:1px solid var(--line);display:flex;gap:10px}
+  .p-foot .btn{flex:1;padding:12px}
+
+  .toast{position:fixed;left:50%;bottom:32px;transform:translateX(-50%) translateY(20px);background:var(--ink);color:#fff;padding:12px 20px;border-radius:12px;font-size:14px;opacity:0;pointer-events:none;transition:.25s;z-index:100}
+  .toast.show{opacity:1;transform:translateX(-50%)}
+
+  @media(max-width:1100px){.grid{grid-template-columns:1fr}}
+  @media(max-width:860px){.sidebar{display:none}.main{padding:16px 16px 120px}.panel{right:12px;left:12px;width:auto}.hero{flex-direction:column;align-items:flex-start}}
+</style>
+</head>
+<body>
+
+<!-- ============ SIDEBAR ============ -->
+<aside class="sidebar">
+  <div class="logo">XCX</div>
+  <div class="logo-sub">XL SMART CAMPAIGN EXCHANGE</div>
+
+  <nav class="nav" id="nav">
+    <div class="nav-label">MAIN</div>
+    <a data-view="getstarted" class="active">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 16.5c-1.5 1.3-2 5-2 5s3.7-.5 5-2c.7-.8.7-2.1-.1-2.9a2.2 2.2 0 0 0-2.9-.1z"/><path d="M12 15l-3-3a22 22 0 0 1 2-3.9A12.9 12.9 0 0 1 22 2c0 2.7-.8 7.5-6 11a22 22 0 0 1-4 2z"/><path d="M9 12H4s.6-3 2-4c1.6-1.1 5 0 5 0M12 15v5s3-.6 4-2c1.1-1.6 0-5 0-5"/></svg>
+      Get Started <span class="pill new" id="navPill">0/8</span>
+    </a>
+    <a data-view="dashboard"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l9-8 9 8v10a1 1 0 0 1-1 1h-5v-7H9v7H4a1 1 0 0 1-1-1z"/></svg>Dashboard</a>
+    <a data-view="campaigns"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M6 20V10M12 20V4M18 20v-7"/></svg>Campaigns <span class="pill">18</span></a>
+    <a data-view="inventory"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M3 15h18M9 3v18M15 3v18"/></svg>Inventory</a>
+    <a data-view="wallet"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/></svg>Wallet</a>
+
+    <div class="nav-label">ANALYTICS</div>
+    <a data-view="reports"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M9 17v-3M12 17v-5M15 17v-2"/></svg>Reports</a>
+
+    <div class="nav-label">ACCOUNT</div>
+    <a data-view="account"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.6-7 8-7s8 3 8 7"/></svg>Account</a>
+    <a data-view="settings"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>Settings</a>
+    <a data-view="support"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="M9.1 9a3 3 0 0 1 5.8 1c0 2-3 3-3 3M12 17h.01"/></svg>Support</a>
+  </nav>
+
+  <div class="side-bottom">
+    <b>Finish setup</b>
+    <p>Complete onboarding to unlock campaigns.</p>
+    <button onclick="openPanel()">View checklist</button>
+  </div>
+</aside>
+
+<!-- ============ MAIN ============ -->
+<main class="main">
+  <div class="topbar">
+    <div class="search">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+      <input placeholder="Search anything…">
+    </div>
+    <div class="spacer"></div>
+    <div class="icon-btn"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9M13.7 21a2 2 0 0 1-3.4 0"/></svg><i>3</i></div>
+    <div class="icon-btn"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg><i>2</i></div>
+    <div class="user"><div class="avatar">DP</div><div><b>Dev Partner Admin Maju</b><small>PT Maju Aktif (dev) — Partner Admin</small></div></div>
+  </div>
+
+  <!-- ===== GET STARTED ===== -->
+  <section class="view show" id="view-getstarted">
+    <h1>Get Started 🚀</h1>
+    <p class="lead">Finish these steps to activate your partner account. Feel free to explore the menus while you set up.</p>
+
+    <div class="hero">
+      <div class="hero-text">
+        <h2 id="heroTitle">Let's get your account ready</h2>
+        <p id="heroDesc">Complete all 8 steps so XL Smart can verify your business and unlock campaign creation.</p>
+        <button class="cta" id="heroCta" onclick="continueNext()">Continue setup
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
+      </div>
+      <div class="ring-lg">
+        <svg width="132" height="132" viewBox="0 0 132 132">
+          <circle cx="66" cy="66" r="56" fill="none" stroke="rgba(255,255,255,.22)" stroke-width="12"/>
+          <circle id="ringLg" cx="66" cy="66" r="56" fill="none" stroke="#fff" stroke-width="12" stroke-linecap="round" stroke-dasharray="351.86" stroke-dashoffset="351.86" style="transition:stroke-dashoffset .5s"/>
+        </svg>
+        <div class="num"><div><span id="pctLg">0%</span><small id="cntLg">0 of 8 done</small></div></div>
+      </div>
+    </div>
+
+    <div class="grid">
+      <div class="card">
+        <h3>Onboarding checklist</h3>
+        <div class="sub">Follow the steps in order. KYC review is done by the XL team.</div>
+        <div class="steps" id="steps"></div>
+      </div>
+
+      <div class="card">
+        <h3>Take a look around</h3>
+        <div class="sub">You can browse these menus before setup is finished.</div>
+        <div class="tour">
+          <a data-view="dashboard"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M3 11l9-8 9 8v10a1 1 0 0 1-1 1h-5v-7H9v7H4a1 1 0 0 1-1-1z"/></svg><div><b>Dashboard</b><small>Reach, CTR and wallet at a glance</small></div><span class="go">→</span></a>
+          <a data-view="inventory"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 3v18"/></svg><div><b>Inventory</b><small>SMS, Push, USSD, OTT Banner</small></div><span class="go">→</span></a>
+          <a data-view="campaigns"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M6 20V10M12 20V4M18 20v-7"/></svg><div><b>Campaigns</b><small>Create and track campaigns</small></div><span class="go">→</span></a>
+          <a data-view="wallet"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/></svg><div><b>Wallet</b><small>Top-up and billing</small></div><span class="go">→</span></a>
+          <a data-view="reports"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg><div><b>Reports</b><small>Performance analytics</small></div><span class="go">→</span></a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== PLACEHOLDER VIEWS (other menus) ===== -->
+  <section class="view" id="view-other">
+    <h1 id="otherTitle">Menu</h1>
+    <p class="lead">Preview mode — you can explore this menu while onboarding.</p>
+    <div class="banner" id="lockBanner">
+      <span>🔒</span><span id="lockMsg">Some actions stay locked until KYC is verified.</span>
+      <button class="btn" onclick="show('getstarted')">Go to Get Started</button>
+    </div>
+    <div class="placeholder"><h2 id="otherH">Page content here</h2><p>Replace this block with the real page. Menu navigation and the floating onboarding button stay on every page.</p></div>
+  </section>
+</main>
+
+<!-- ============ FLOATING BUTTON + PANEL ============ -->
+<button class="fab" id="fab" onclick="togglePanel()" aria-label="Open onboarding checklist">
+  <div class="r">
+    <svg width="52" height="52" viewBox="0 0 52 52">
+      <circle cx="26" cy="26" r="22" fill="none" stroke="#e3e3f8" stroke-width="5"/>
+      <circle id="ringFab" cx="26" cy="26" r="22" fill="none" stroke="url(#g)" stroke-width="5" stroke-linecap="round" stroke-dasharray="138.23" stroke-dashoffset="138.23" style="transition:stroke-dashoffset .5s"/>
+      <defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#2a1fc4"/><stop offset="1" stop-color="#e6007e"/></linearGradient></defs>
+    </svg>
+    <span id="pctFab">0%</span>
+  </div>
+  <div class="t"><b>Onboarding</b><small id="fabSub">0 of 8 steps</small></div>
+</button>
+
+<div class="panel" id="panel" role="dialog" aria-label="Onboarding checklist">
+  <div class="p-head">
+    <button class="x" onclick="closePanel()" aria-label="Close">✕</button>
+    <h4>Account setup</h4>
+    <p id="pHeadSub">0 of 8 steps completed</p>
+    <div class="bar"><i id="pBar" style="width:0%"></i></div>
+  </div>
+  <div class="p-body" id="pList"></div>
+  <div class="p-foot">
+    <button class="btn ghost" onclick="show('getstarted');closePanel()">Open page</button>
+    <button class="btn" id="pCta" onclick="continueNext()">Continue</button>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+/* ---------- Onboarding steps (same order as /onboarding/partner) ---------- */
+var STEPS = [
+  { key:'account_type', title:'Account Type',  desc:'Choose SME / Small Business, Advertising Agency or Enterprise Brand.', eta:'1 min',  cta:'Choose type' },
+  { key:'company_info', title:'Company Info',  desc:'Company name, NPWP, NIB, address, city, province and postal code.',    eta:'3 min',  cta:'Fill company info' },
+  { key:'pic_info',     title:'PIC Info',      desc:'Person in charge: name, position, email and phone number.',            eta:'2 min',  cta:'Add PIC' },
+  { key:'kyc_upload',   title:'KYC Upload',    desc:'Upload NPWP, NIB / company deed and PIC identity (KTP).',              eta:'5 min',  cta:'Upload documents' },
+  { key:'wallet_setup', title:'Wallet Setup',  desc:'Set up your wallet and initial top-up method.',                        eta:'2 min',  cta:'Set up wallet' },
+  { key:'submit_review',title:'Submit Review', desc:'Review all information, then submit it to the XL team.',               eta:'1 min',  cta:'Review & submit' },
+  { key:'kyc_status',   title:'KYC Status',    desc:'XL team verifies your documents. We notify you by email and in-app.',  eta:'1–2 days', cta:'Check status', auto:true },
+  { key:'continue',     title:'Continue',      desc:'Account verified. Start creating campaigns.',                          eta:'',       cta:'Go to dashboard' }
+];
+var STORE = 'xcx_onboarding_done';
+var done = load();                 // array of booleans
+var CIRC_LG = 351.86, CIRC_FAB = 138.23;
+
+function load(){
+  try { var v = JSON.parse(localStorage.getItem(STORE)); if (Array.isArray(v) && v.length === STEPS.length) return v; } catch(e){}
+  return STEPS.map(function(){return false;});
+}
+function save(){ try { localStorage.setItem(STORE, JSON.stringify(done)); } catch(e){} }
+function doneCount(){ return done.filter(Boolean).length; }
+function currentIdx(){ return done.indexOf(false); }   // -1 when all done
+
+/* ---------- Render ---------- */
+function render(){
+  var n = doneCount(), total = STEPS.length, pct = Math.round(n/total*100), cur = currentIdx();
+
+  // rings + labels
+  document.getElementById('ringLg').style.strokeDashoffset  = CIRC_LG  * (1 - pct/100);
+  document.getElementById('ringFab').style.strokeDashoffset = CIRC_FAB * (1 - pct/100);
+  document.getElementById('pctLg').textContent  = pct + '%';
+  document.getElementById('pctFab').textContent = pct + '%';
+  document.getElementById('cntLg').textContent  = n + ' of ' + total + ' done';
+  document.getElementById('fabSub').textContent = cur === -1 ? 'All set 🎉' : n + ' of ' + total + ' steps';
+  document.getElementById('fab').classList.toggle('complete', cur === -1);
+  document.getElementById('navPill').textContent = n + '/' + total;
+  document.getElementById('pHeadSub').textContent = n + ' of ' + total + ' steps completed';
+  document.getElementById('pBar').style.width = pct + '%';
+
+  var title = document.getElementById('heroTitle'), desc = document.getElementById('heroDesc'), cta = document.getElementById('heroCta');
+  if (cur === -1){
+    title.textContent = "You're all set!";
+    desc.textContent = 'Your account is verified. Start creating campaigns across XL Smart inventory.';
+    cta.firstChild.textContent = 'Go to dashboard ';
+    document.getElementById('pCta').textContent = 'Go to dashboard';
+  } else {
+    title.textContent = n === 0 ? "Let's get your account ready" : 'Nice progress, keep going';
+    desc.textContent = 'Next up: ' + STEPS[cur].title + '. ' + STEPS[cur].desc;
+    cta.firstChild.textContent = (n === 0 ? 'Start setup ' : 'Continue setup ');
+    document.getElementById('pCta').textContent = n === 0 ? 'Start' : 'Continue';
+  }
+
+  // page checklist
+  var html = '';
+  STEPS.forEach(function(s, i){
+    var isDone = done[i], isCur = i === cur, locked = !isDone && !isCur;
+    var cls = 'step' + (isDone ? ' done' : '') + (isCur ? ' current' : '') + (locked ? ' locked' : '');
+    var dot = isDone ? '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 7"/></svg>' : (i+1);
+    var right;
+    if (isDone) right = '<span class="tag ok">Done</span>';
+    else if (isCur && s.auto) right = '<span class="tag wait">In review</span>';
+    else if (isCur) right = '<button class="btn" onclick="startStep('+i+')">'+s.cta+'</button>';
+    else right = '<span class="tag lock">Locked</span>';
+    html += '<div class="'+cls+'"><div class="dot">'+dot+'</div><div><b>'+s.title+'</b><p>'+s.desc+'</p>'+
+            (s.eta ? '<div class="eta"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>'+s.eta+'</div>' : '')+
+            '</div><div>'+right+'</div></div>';
+  });
+  document.getElementById('steps').innerHTML = html;
+
+  // floating panel list
+  var p = '';
+  STEPS.forEach(function(s, i){
+    var isDone = done[i], isCur = i === cur;
+    var dot = isDone ? '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 7"/></svg>' : (i+1);
+    p += '<div class="p-item'+(isDone?' done':'')+(isCur?' current':'')+'" onclick="panelClick('+i+')"><div class="dot">'+dot+'</div>'+
+         '<div><b>'+s.title+'</b><small>'+(isDone ? 'Completed' : isCur ? 'Up next' : 'Locked')+'</small></div><span class="chev">›</span></div>';
+  });
+  document.getElementById('pList').innerHTML = p;
+}
+
+/* ---------- Actions ---------- */
+function startStep(i){
+  // In real app: window.location.href = '/onboarding/partner?step=' + (i+1);
+  // Demo: simulate finishing the step.
+  if (STEPS[i].auto){ toast('Waiting for XL team to verify your KYC.'); return; }
+  done[i] = true;
+  // demo shortcut: KYC status & final step complete after submit
+  if (i === 5){ toast('Submitted! KYC review started.'); }
+  else toast('Step "' + STEPS[i].title + '" completed');
+  save(); render();
+}
+function continueNext(){
+  var cur = currentIdx();
+  if (cur === -1){ show('dashboard'); closePanel(); return; }
+  if (STEPS[cur].auto){
+    // demo: let user simulate XL approval
+    if (confirm('Demo: simulate XL team approving KYC?')){ done[cur] = true; save(); render(); toast('KYC verified 🎉'); }
+    return;
+  }
+  show('getstarted'); closePanel(); startStep(cur);
+}
+function panelClick(i){
+  var cur = currentIdx();
+  if (done[i]) { toast('"' + STEPS[i].title + '" already completed.'); return; }
+  if (i !== cur) { toast('Finish "' + STEPS[cur].title + '" first.'); return; }
+  continueNext();
+}
+
+/* ---------- Navigation ---------- */
+var TITLES = { dashboard:'Dashboard', campaigns:'Campaigns', inventory:'Inventory', wallet:'Wallet', reports:'Reports', account:'Account', settings:'Settings', support:'Support' };
+function show(v){
+  document.querySelectorAll('.nav a').forEach(function(a){ a.classList.toggle('active', a.dataset.view === v); });
+  document.querySelectorAll('.view').forEach(function(s){ s.classList.remove('show'); });
+  if (v === 'getstarted'){ document.getElementById('view-getstarted').classList.add('show'); }
+  else {
+    document.getElementById('otherTitle').textContent = TITLES[v] || v;
+    document.getElementById('otherH').textContent = (TITLES[v] || v) + ' content';
+    document.getElementById('lockBanner').style.display = currentIdx() === -1 ? 'none' : 'flex';
+    document.getElementById('view-other').classList.add('show');
+  }
+  window.scrollTo({ top:0 });
+}
+document.addEventListener('click', function(e){
+  var a = e.target.closest('[data-view]');
+  if (a){ e.preventDefault(); show(a.dataset.view); }
+});
+
+/* ---------- Floating panel ---------- */
+function openPanel(){ document.getElementById('panel').classList.add('open'); }
+function closePanel(){ document.getElementById('panel').classList.remove('open'); }
+function togglePanel(){ document.getElementById('panel').classList.toggle('open'); }
+document.addEventListener('keydown', function(e){ if (e.key === 'Escape') closePanel(); });
+
+var tt;
+function toast(msg){
+  var t = document.getElementById('toast'); t.textContent = msg; t.classList.add('show');
+  clearTimeout(tt); tt = setTimeout(function(){ t.classList.remove('show'); }, 2400);
+}
+
+render();
+</script>
+</body>
+</html>
